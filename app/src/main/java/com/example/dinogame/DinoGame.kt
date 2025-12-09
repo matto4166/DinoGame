@@ -13,23 +13,35 @@ class DinoGame {
     private var cactusHeight = 0
     private var cactusSpeed : Float = 0f
 
-    private var deltaTime : Long = 0
+    private var deltaTime : Float = 0f
     private var score : Int = 0
     private var highScore : Int = 0
     private var dinoHit : Boolean = false // Use this to judge if game is over
 
     private var jumping : Boolean = false
-    private val gravity : Float = 100f
+    private val gravity : Float = 900f
     private var jumpVelocity : Float = 0f
-    private val jumpForce : Float =  -200f
+    private val jumpForce : Float =  -1000f
     private var ground = 0
 
-    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Long) {
+    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
         this.screenRect = screenRect
         setDinoRect(dinoRect)
         setCactusRect(cactusRect)
         this.cactusSpeed = cactusSpeed
         this.deltaTime = deltaTime
+    }
+
+    fun getDinoRect() : Rect {
+        return dinoRect!!
+    }
+
+    fun getCactusRect() : Rect {
+        return cactusRect!!
+    }
+
+    fun getDeltaTime() : Float {
+        return deltaTime
     }
 
     fun getScore() : Int {
@@ -50,6 +62,28 @@ class DinoGame {
 
     fun getDinoHit() : Boolean {
         return dinoHit
+    }
+
+    fun getGravity() : Float {
+        return gravity
+    }
+    fun getJumpVelocity() : Float {
+        return jumpVelocity
+    }
+
+    fun setJumpVelocity(jumpVelocity : Float) {
+        this.jumpVelocity = jumpVelocity
+    }
+    fun getJumping() : Boolean {
+        return jumping
+    }
+
+    fun setJumping(jumping : Boolean) {
+        this.jumping = jumping
+    }
+
+    fun getGround() : Int {
+        return ground
     }
 
     fun setDinoHit(isDinoHit : Boolean) {
