@@ -24,14 +24,25 @@ class DinoGame {
     private val jumpForce : Float =  -1000f
     private var ground = 0
 
-    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
+    constructor() {
+
+    }
+
+//    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
+//        this.screenRect = screenRect
+//        setDinoRect(dinoRect)
+//        setCactusRect(cactusRect)
+//        this.cactusSpeed = cactusSpeed
+//        this.deltaTime = deltaTime
+//    }
+
+    fun setParams(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
         this.screenRect = screenRect
         setDinoRect(dinoRect)
         setCactusRect(cactusRect)
         this.cactusSpeed = cactusSpeed
         this.deltaTime = deltaTime
     }
-
     fun getDinoRect() : Rect {
         return dinoRect!!
     }

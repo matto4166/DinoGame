@@ -18,17 +18,16 @@ class GameActivity : AppCompatActivity(){
         var width : Int = resources.displayMetrics.widthPixels
         var height : Int = resources.displayMetrics.heightPixels
         gameView = GameView(this, width, height)
-        dinoGame = gameView.getDinoGame()
-
+        dinoGame = MainActivity.game
 
             var th = TouchHandler()
             detector = GestureDetector(this, th)
 
+        setContentView(gameView)
+
         var task : GameTimerTask = GameTimerTask(this@GameActivity)
         var gameTimer : Timer = Timer()
         gameTimer.schedule(task, 0L, 50)
-
-        setContentView(gameView)
     }
 
     fun getDinoGame() : DinoGame {
