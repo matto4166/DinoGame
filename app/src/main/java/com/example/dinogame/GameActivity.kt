@@ -15,6 +15,9 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 class GameActivity : AppCompatActivity(){
     private lateinit var gameView : GameView
     private lateinit var dinoGame : DinoGame
@@ -23,6 +26,7 @@ class GameActivity : AppCompatActivity(){
     private lateinit var vibrator: Vibrator
     private lateinit var gameTimer : Timer
     private lateinit var ad : InterstitialAd
+    private lateinit var score: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +49,8 @@ class GameActivity : AppCompatActivity(){
         val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
         vibrator = vibratorManager.defaultVibrator
 
+        var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
+        score = firebase.getReference("score")
 
     }
 

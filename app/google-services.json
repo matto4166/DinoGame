@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461971383700",
+    "project_id": "cmsc436-dino-final",
+    "storage_bucket": "cmsc436-dino-final.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461971383700:android:73155959a237a7c9601b81",
+        "android_client_info": {
+          "package_name": "com.example.dinogame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBodomG6Rb4RpmNS8YRb1MuA4Tks9xexZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
