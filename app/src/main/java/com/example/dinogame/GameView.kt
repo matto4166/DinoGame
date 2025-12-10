@@ -17,8 +17,9 @@ class GameView : View {
     private lateinit var dinoRect : Rect
     private lateinit var cactus : Bitmap
     private lateinit var cactusRect : Rect
+    private lateinit var dinoGame : DinoGame
 
-    constructor(context : Context, width : Int, height : Int) : super(context) {
+    constructor(context : Context, width : Int, height : Int, dinoGame: DinoGame) : super(context) {
         this.width = width
         this.height = height
 
@@ -30,18 +31,16 @@ class GameView : View {
         dinoRect = Rect((width * 0.05f).toInt(), height - (height * 0.2f).toInt(), (width * 0.15f).toInt(), height)
         cactus = BitmapFactory.decodeResource(resources, R.drawable.cactus)
         cactusRect = Rect(width - (width * 0.1f).toInt(), height - (height * 0.4f).toInt(), width, height)
+        this.dinoGame = dinoGame
 
-        MainActivity.game.setParams(screenRect, dinoRect, cactusRect, width.toFloat() / 4000, 100f)
+        dinoGame.setParams(screenRect, dinoRect, cactusRect, width.toFloat() / 4000, 100f)
     }
 
-//    fun getDinoGame() : DinoGame {
-//        return dinoGame
-//    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.drawBitmap(dino, null, MainActivity.game.getDinoRect(), paint)
-        canvas.drawBitmap(cactus, null, MainActivity.game.getCactusRect(), paint)
+        canvas.drawBitmap(dino, null, dinoGame.getDinoRect(), paint)
+        canvas.drawBitmap(cactus, null, dinoGame.getCactusRect(), paint)
     }
 }

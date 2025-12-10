@@ -27,6 +27,7 @@ class GameActivity : AppCompatActivity(){
     private lateinit var gameTimer : Timer
     private lateinit var ad : InterstitialAd
     private lateinit var score: DatabaseReference
+    private var adCalled : Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +35,8 @@ class GameActivity : AppCompatActivity(){
 
         var width : Int = resources.displayMetrics.widthPixels
         var height : Int = resources.displayMetrics.heightPixels
-        gameView = GameView(this, width, height)
-        dinoGame = MainActivity.game
+        dinoGame = DinoGame()
+        gameView = GameView(this, width, height, dinoGame)
 
             var th = TouchHandler()
             detector = GestureDetector(this, th)
@@ -54,10 +55,6 @@ class GameActivity : AppCompatActivity(){
 
     }
 
-    fun getDinoGame() : DinoGame {
-        return dinoGame
-    }
-
     fun vibrate() {
         Log.w("GameActivity", "should be vibrating")
         vibrator.vibrate(1000)
@@ -70,18 +67,24 @@ class GameActivity : AppCompatActivity(){
         if (dinoGame.cactusOffScreen()) {
             dinoGame.resetCactus()
         } else if (dinoGame.dinoHit()) {
+            gameTimer.cancel()
             vibrate()
             dinoGame.setDinoHit(true)
-            gameTimer.cancel()
+            adCall(adCalled)
+            
+        }
+    }
+
+    fun adCall(called : Boolean) {
+        if (called == false) {
+            adCalled = true
             var builder : AdRequest.Builder = AdRequest.Builder( )
             builder.addKeyword( "gaming" )
             var request : AdRequest = builder.build()
 
             var adUnitId : String = "ca-app-pub-3940256099942544/1033173712"
             var adLoadHandler : AdLoadHandler = AdLoadHandler( )
-            runOnUiThread { InterstitialAd.load( this, adUnitId, request, adLoadHandler ) }
-
-            // Start the post game screen
+            runOnUiThread { InterstitialAd.load( this@GameActivity, adUnitId, request, adLoadHandler ) }
         }
     }
 

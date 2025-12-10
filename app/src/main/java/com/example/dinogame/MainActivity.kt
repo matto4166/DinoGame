@@ -20,26 +20,33 @@ class MainActivity : AppCompatActivity() {
     private lateinit var highScore : TextView
 
     private lateinit var refScore: DatabaseReference
+    private lateinit var scoresButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        game = DinoGame()
-
         highScore = findViewById<TextView>(R.id.highscore_tv)
-        highScore.text = "High Score: " + game.getHighScore()
+        highScore.text = "Your High Score: " // instead of game.getScore, get it from local preferences
 
 //        refScore = FirebaseDatabase.getInstance().getReference("scores")
 //        refScore.addValueEventListener(ScoresListener())
 
         playButton = findViewById<Button>(R.id.play_button)
         playButton.setOnClickListener{play()}
+
+        scoresButton = findViewById<Button>(R.id.scores)
+        scoresButton.setOnClickListener { leaderboard() }
     }
 
     fun play() {
         var intent : Intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun leaderboard() {
+        var intent : Intent = Intent(this, Leaderboard::class.java)
         startActivity(intent)
     }
 
@@ -68,7 +75,4 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    companion object {
-        lateinit var game : DinoGame
-    }
 }
