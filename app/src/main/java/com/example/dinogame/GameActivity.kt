@@ -9,7 +9,12 @@ import java.util.Timer
 import android.os.Build
 import android.os.VibratorManager
 import android.util.Log
-
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 class GameActivity : AppCompatActivity(){
     private lateinit var gameView : GameView
     private lateinit var dinoGame : DinoGame
@@ -17,6 +22,7 @@ class GameActivity : AppCompatActivity(){
 
     private lateinit var vibrator: Vibrator
     private lateinit var gameTimer : Timer
+    private lateinit var ad : InterstitialAd
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +42,9 @@ class GameActivity : AppCompatActivity(){
         gameTimer = Timer()
         gameTimer.schedule(task, 0L, 50)
 
-        val vibratorMaanger = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
-        vibrator = vibratorMaanger.defaultVibrator
+        val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vibrator = vibratorManager.defaultVibrator
+
 
     }
 
@@ -60,6 +67,13 @@ class GameActivity : AppCompatActivity(){
             vibrate()
             dinoGame.setDinoHit(true)
             gameTimer.cancel()
+            var builder : AdRequest.Builder = AdRequest.Builder( )
+            builder.addKeyword( "gaming" )
+            var request : AdRequest = builder.build()
+
+            var adUnitId : String = "ca-app-pub-3940256099942544/1033173712"
+            var adLoadHandler : AdLoadHandler = AdLoadHandler( )
+            runOnUiThread { InterstitialAd.load( this, adUnitId, request, adLoadHandler ) }
 
             // Start the post game screen
         }
@@ -100,4 +114,43 @@ class GameActivity : AppCompatActivity(){
             return super.onDown(e)
         }
     } // remove
+
+    inner class AdLoadHandler : InterstitialAdLoadCallback() {
+        override fun onAdFailedToLoad(p0: LoadAdError) {
+            super.onAdFailedToLoad(p0)
+        }
+
+        override fun onAdLoaded(p0: InterstitialAd) {
+            super.onAdLoaded(p0)
+            ad = p0
+            ad.show( this@GameActivity )
+            // manage the ad
+            var adMgmt : AdManagement = AdManagement()
+            ad.fullScreenContentCallback = adMgmt
+        }
+    }
+
+    inner class AdManagement : FullScreenContentCallback() {
+        override fun onAdClicked() {
+            super.onAdClicked()
+        }
+
+        override fun onAdDismissedFullScreenContent() {
+            super.onAdDismissedFullScreenContent()
+
+            finish()
+        }
+
+        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            super.onAdFailedToShowFullScreenContent(p0)
+        }
+
+        override fun onAdImpression() {
+            super.onAdImpression()
+        }
+
+        override fun onAdShowedFullScreenContent() {
+            super.onAdShowedFullScreenContent()
+        }
+    }
 }
