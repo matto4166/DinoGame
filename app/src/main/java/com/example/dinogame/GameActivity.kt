@@ -1,15 +1,22 @@
 package com.example.dinogame
 
 import android.os.Bundle
+import android.os.Vibrator
 import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import java.util.Timer
+import android.os.Build
+import android.os.VibratorManager
+import android.util.Log
 
 class GameActivity : AppCompatActivity(){
     private lateinit var gameView : GameView
     private lateinit var dinoGame : DinoGame
     private lateinit var detector : GestureDetector //remove
+
+    private lateinit var vibrator: Vibrator
+    private lateinit var gameTimer : Timer
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,12 +33,21 @@ class GameActivity : AppCompatActivity(){
         setContentView(gameView)
 
         var task : GameTimerTask = GameTimerTask(this@GameActivity)
-        var gameTimer : Timer = Timer()
+        gameTimer = Timer()
         gameTimer.schedule(task, 0L, 50)
+
+        val vibratorMaanger = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vibrator = vibratorMaanger.defaultVibrator
+
     }
 
     fun getDinoGame() : DinoGame {
         return dinoGame
+    }
+
+    fun vibrate() {
+        Log.w("GameActivity", "should be vibrating")
+        vibrator.vibrate(1000)
     }
 
     fun updateModel() {
@@ -41,7 +57,10 @@ class GameActivity : AppCompatActivity(){
         if (dinoGame.cactusOffScreen()) {
             dinoGame.resetCactus()
         } else if (dinoGame.dinoHit()) {
+            vibrate()
             dinoGame.setDinoHit(true)
+            gameTimer.cancel()
+
             // Start the post game screen
         }
     }
