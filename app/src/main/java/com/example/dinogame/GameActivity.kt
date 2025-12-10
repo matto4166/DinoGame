@@ -71,7 +71,7 @@ class GameActivity : AppCompatActivity(){
             vibrate()
             dinoGame.setDinoHit(true)
             adCall(adCalled)
-            
+
         }
     }
 

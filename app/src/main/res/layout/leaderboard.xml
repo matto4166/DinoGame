@@ -18,4 +18,94 @@
         android:layout_marginTop="20dp"
         android:id="@+id/backButton"/>
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:id="@+id/progressBar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:text="% (edit to put how close they are to beating remote high scores)"
+        android:id="@+id/scoreText"/>
+
+    <ImageView
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:layout_above="@id/scoreText"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:id="@+id/img"
+        />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore"
+        android:text="placeholder for best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore2"
+        android:text="placeholder for 2nd best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginTop="40dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore3"
+        android:text="placeholder for 3rd best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginTop="80dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore4"
+        android:text="placeholder for 4th best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginTop="120dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore5"
+        android:text="placeholder for 5th best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginTop="160dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highestScore6"
+        android:text="placeholder for 6th best score"
+        android:layout_toRightOf="@id/center"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginTop="200dp"/>
+
 </RelativeLayout>
