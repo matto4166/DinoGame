@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var playButton : Button
     private lateinit var highScore : TextView
     private lateinit var scoresButton : Button
+    private lateinit var customizeButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         scoresButton = findViewById<Button>(R.id.scores)
         scoresButton.setOnClickListener { leaderboard() }
+
+        customizeButton = findViewById<Button>(R.id.customize)
+        customizeButton.setOnClickListener { customize() }
     }
 
     override fun onResume() {
@@ -50,6 +54,11 @@ class MainActivity : AppCompatActivity() {
 
     fun leaderboard() {
         var intent : Intent = Intent(this, Leaderboard::class.java)
+        startActivity(intent)
+    }
+
+    fun customize() {
+        var intent : Intent = Intent(this, Customize::class.java)
         startActivity(intent)
     }
 

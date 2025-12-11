@@ -77,7 +77,7 @@ class Leaderboard : AppCompatActivity() {
                     "You have the highest score!"
                 } else {
                     val percentage = (localHighScore.toDouble() / topFirebaseScore.toDouble()) * 100
-                    "You are %.1f%% of the top score.".format(percentage)
+                    "You are %.1f%% to the top score.".format(percentage)
             }
 
         }

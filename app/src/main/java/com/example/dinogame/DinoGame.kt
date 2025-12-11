@@ -25,11 +25,13 @@ class DinoGame {
     private var jumpVelocity : Float = 0f
     private val jumpForce : Float =  -1000f
     private var ground = 0
+    private var characterNum = 0
 
     constructor(context : Context) {
         var sp : SharedPreferences =
             context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
         setHighScore(sp.getInt("HIGH_SCORE", 0))
+        setCharacterNum(sp.getInt("CHARACTER", 0))
     }
 
 //    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
@@ -46,6 +48,9 @@ class DinoGame {
         setCactusRect(cactusRect)
         this.cactusSpeed = cactusSpeed
         this.deltaTime = deltaTime
+    }
+    fun getScreenRect() : Rect {
+        return screenRect!!
     }
     fun getDinoRect() : Rect {
         return dinoRect!!
@@ -101,6 +106,14 @@ class DinoGame {
         return ground
     }
 
+    fun getCharacterNum() : Int {
+        return characterNum
+    }
+
+    fun setCharacterNum(characterNum : Int) {
+        this.characterNum = characterNum
+    }
+
     fun setDinoHit(isDinoHit : Boolean) {
         this.dinoHit = isDinoHit
     }
@@ -153,6 +166,14 @@ class DinoGame {
         var sp : SharedPreferences = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
         var editor : SharedPreferences.Editor = sp.edit()
         editor.putInt("HIGH_SCORE", highScore)
+
+        editor.commit()
+    }
+
+    fun setDinoPreferences (context : Context) {
+        var sp : SharedPreferences = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
+        var editor : SharedPreferences.Editor = sp.edit()
+        editor.putInt("CHARACTER", characterNum)
 
         editor.commit()
     }

@@ -43,29 +43,23 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:id="@+id/line"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/play_button"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/play_button"
         android:text="Scores"
-        android:layout_toLeftOf="@id/line"
+        android:layout_centerHorizontal="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:id="@+id/scores"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/play_button"
-        android:text="Options"
-        android:layout_toRightOf="@id/line"
+        android:layout_below="@id/scores"
+        android:id="@+id/customize"
+        android:text="Customize"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>
