@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -49,6 +50,11 @@ class Leaderboard : AppCompatActivity() {
 
         scores.addValueEventListener(ScoresListener())
     }
+
+    fun updateProgress(localHighScore : Int, overallHigh : Int) {
+        var progress : ProgressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progress.setProgress((localHighScore / overallHigh)* 100)
+    }
     inner class ScoresListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             val scoresList = mutableListOf<Int>()
@@ -80,6 +86,7 @@ class Leaderboard : AppCompatActivity() {
                     "You are %.1f%% to the top score.".format(percentage)
             }
 
+            updateProgress(localHighScore, topFirebaseScore)
         }
 
         override fun onCancelled(error: DatabaseError) {
