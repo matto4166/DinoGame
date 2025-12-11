@@ -29,8 +29,11 @@ class GameActivity : AppCompatActivity(){
     private lateinit var pool : SoundPool
     private var jumpSound : Int = 0
     private lateinit var ad : InterstitialAd
-    private lateinit var score: DatabaseReference
+
+    private lateinit var scores: DatabaseReference
     private var adCalled : Boolean = false
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +60,7 @@ class GameActivity : AppCompatActivity(){
         vibrator = vibratorManager.defaultVibrator
 
         var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
-        score = firebase.getReference("score")
+        scores = firebase.getReference("scores")
 
     }
 
@@ -76,8 +79,27 @@ class GameActivity : AppCompatActivity(){
             gameTimer.cancel()
 
             if (dinoGame.getScore() > dinoGame.getHighScore()) {
-                dinoGame.setHighScore(dinoGame.getScore())
+                val previousHigh = dinoGame.getHighScore()
+                val newHigh = dinoGame.getScore()
+                scores.get().addOnSuccessListener { snapshot ->
+                    // Remove previous high score if it exists
+                    for (child in snapshot.children) {
+                        val value = child.getValue(Int::class.java) ?: 0
+                        if (value == previousHigh) {
+                            child.ref.removeValue()
+                            break
+                        }
+                    }
+
+                    scores.push().setValue(newHigh)
+
+                    dinoGame.setHighScore(newHigh)
+                    dinoGame.setPreferences(this)
+                }.addOnFailureListener { e ->
+                    Log.e("GameActivity", "Failed to read Firebase: ${e.message}")
+                }
             }
+
 
             dinoGame.setScore(0)
             dinoGame.setPreferences(this)
