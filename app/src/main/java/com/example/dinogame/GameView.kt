@@ -26,6 +26,7 @@ class GameView : View {
         this.height = height
 
         paint.isAntiAlias = true
+        this.dinoGame = dinoGame
 
         desert = BitmapFactory.decodeResource(resources, R.drawable.desert)
         screenRect = Rect(0,0,width,height)
@@ -33,7 +34,6 @@ class GameView : View {
         dinoRect = Rect((width * 0.05f).toInt(), height - (height * 0.2f).toInt(), (width * 0.15f).toInt(), height)
         cactus = BitmapFactory.decodeResource(resources, R.drawable.cactus)
         cactusRect = Rect(width - (width * 0.1f).toInt(), height - (height * 0.4f).toInt(), width, height)
-        this.dinoGame = dinoGame
 
         dinoGame.setParams(screenRect, dinoRect, cactusRect, width.toFloat() / 4000, 100f)
     }

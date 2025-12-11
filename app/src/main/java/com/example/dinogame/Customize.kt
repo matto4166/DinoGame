@@ -12,7 +12,7 @@ class Customize : AppCompatActivity() {
     private lateinit var dinoRider : RadioButton
     private lateinit var chicken : RadioButton
     private lateinit var mario : RadioButton
-    private var dinoGame : DinoGame = MainActivity.dinoGame
+//    private var dinoGame : DinoGame = MainActivity.dinoGame
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +34,13 @@ class Customize : AppCompatActivity() {
 
     fun goBack() {
         updateDinoObject()
-        dinoGame.setDinoPreferences(this)
+//        dinoGame.setDinoPreferences(this)
         finish()
     }
 
     fun updateView() {
-        var characterNum = dinoGame.getCharacterNum()
+//        var characterNum = dinoGame.getCharacterNum()
+        var characterNum = MainActivity.characterNum
 
         if (characterNum == 0) {
             cuteDino.isChecked = true
@@ -56,15 +57,20 @@ class Customize : AppCompatActivity() {
 
     fun updateDinoObject() {
         if (cuteDino.isChecked) {
-            dinoGame.setCharacterNum(0)
+            MainActivity.characterNum = 0
+//            dinoGame.setCharacterNum(0)
         } else if (longNeckDino.isChecked) {
-            dinoGame.setCharacterNum(1)
+            MainActivity.characterNum = 1
+//            dinoGame.setCharacterNum(1)
         } else if (dinoRider.isChecked) {
-            dinoGame.setCharacterNum(2)
+            MainActivity.characterNum = 2
+//            dinoGame.setCharacterNum(2)
         } else if (chicken.isChecked) {
-            dinoGame.setCharacterNum(3)
+            MainActivity.characterNum = 3
+//            dinoGame.setCharacterNum(3)
         } else if (mario.isChecked) {
-            dinoGame.setCharacterNum(4)
+            MainActivity.characterNum = 4
+//            dinoGame.setCharacterNum(4)
         }
     }
 

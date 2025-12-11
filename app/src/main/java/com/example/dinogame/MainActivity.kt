@@ -1,5 +1,6 @@
 package com.example.dinogame
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,19 +18,24 @@ import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var playButton : Button
-    private lateinit var highScore : TextView
+    private lateinit var highScoreText : TextView
     private lateinit var scoresButton : Button
     private lateinit var customizeButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        dinoGame = DinoGame(this)
+//        dinoGame = DinoGame(this)
 
         setContentView(R.layout.activity_main)
 
-        highScore = findViewById<TextView>(R.id.highscore_tv)
-        highScore.text = "Your High Score: " + dinoGame.getHighScore().toString()
+        val sp = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+        val localHighScore = sp.getInt("HIGH_SCORE", 0)
+        characterNum = sp.getInt("CHARACTER", 0)
+        highScore = localHighScore
+
+        highScoreText = findViewById<TextView>(R.id.highscore_tv)
+        highScoreText.text = "Your High Score: " + highScore
 
         playButton = findViewById<Button>(R.id.play_button)
         playButton.setOnClickListener{play()}
@@ -43,8 +49,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        dinoGame.setDinoHit(false)
-        highScore.text = "Your High Score: " + dinoGame.getHighScore().toString()
+//        dinoGame.setDinoHit(false)
+        val sp = getSharedPreferences(packageName + "_preferences", Context.MODE_PRIVATE)
+        val localHighScore = sp.getInt("HIGH_SCORE", 0)
+        highScore = localHighScore
+        highScoreText.text = "Your High Score: " + highScore
     }
 
     fun play() {
@@ -63,7 +72,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        lateinit var dinoGame : DinoGame
+//        lateinit var dinoGame : DinoGame
+        var highScore : Int = 0
+        var characterNum : Int = 0
     }
 
 }

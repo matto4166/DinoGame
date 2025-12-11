@@ -21,7 +21,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class GameActivity : AppCompatActivity(){
     private lateinit var gameView : GameView
-    private var dinoGame : DinoGame = MainActivity.dinoGame
+//    private var dinoGame : DinoGame = MainActivity.dinoGame
+    private lateinit var dinoGame : DinoGame
     private lateinit var detector : GestureDetector
 
     private lateinit var vibrator: Vibrator
@@ -41,10 +42,14 @@ class GameActivity : AppCompatActivity(){
 
         var width : Int = resources.displayMetrics.widthPixels
         var height : Int = resources.displayMetrics.heightPixels
+        dinoGame = DinoGame(this)
         gameView = GameView(this, width, height, dinoGame)
 
         var th = TouchHandler()
         detector = GestureDetector(this, th)
+
+        dinoGame.setCharacterNum(MainActivity.characterNum)
+        dinoGame.setDinoPreferences(this)
 
         setContentView(gameView)
 
@@ -77,8 +82,9 @@ class GameActivity : AppCompatActivity(){
             dinoGame.resetCactus()
         } else if (dinoGame.dinoHit()) {
             gameTimer.cancel()
+            dinoGame.setDinoHit(true)
 
-            if (dinoGame.getScore() > dinoGame.getHighScore()) {
+            runOnUiThread { if (dinoGame.getScore() > dinoGame.getHighScore()) {
                 val previousHigh = dinoGame.getHighScore()
                 val newHigh = dinoGame.getScore()
                 scores.get().addOnSuccessListener { snapshot ->
@@ -101,12 +107,11 @@ class GameActivity : AppCompatActivity(){
             }
 
 
-            dinoGame.setScore(0)
-            dinoGame.setPreferences(this)
+                dinoGame.setScore(0)
+                dinoGame.setPreferences(this)
 
-            vibrate()
-            dinoGame.setDinoHit(true)
-            adCall(adCalled)
+                vibrate()
+                adCall(adCalled) }
         }
     }
 

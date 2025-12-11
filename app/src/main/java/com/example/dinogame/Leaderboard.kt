@@ -53,7 +53,7 @@ class Leaderboard : AppCompatActivity() {
 
     fun updateProgress(localHighScore : Int, overallHigh : Int) {
         var progress : ProgressBar = findViewById<ProgressBar>(R.id.progressBar)
-        progress.setProgress((localHighScore / overallHigh)* 100)
+        progress.progress = ((localHighScore.toFloat() / overallHigh)* 100).toInt()
     }
     inner class ScoresListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
