@@ -1,5 +1,7 @@
 package com.example.dinogame
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Rect
 
 class DinoGame {
@@ -24,8 +26,10 @@ class DinoGame {
     private val jumpForce : Float =  -1000f
     private var ground = 0
 
-    constructor() {
-
+    constructor(context : Context) {
+        var sp : SharedPreferences =
+            context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
+        setHighScore(sp.getInt("HIGH_SCORE", 0))
     }
 
 //    constructor(screenRect : Rect, dinoRect : Rect, cactusRect : Rect, cactusSpeed : Float, deltaTime : Float) {
@@ -143,5 +147,13 @@ class DinoGame {
         return dinoRect!!.intersects(
             cactusRect!!.left, cactusRect!!.top,
             cactusRect!!.right, cactusRect!!.bottom)
+    }
+
+    fun setPreferences (context : Context) {
+        var sp : SharedPreferences = context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
+        var editor : SharedPreferences.Editor = sp.edit()
+        editor.putInt("HIGH_SCORE", highScore)
+
+        editor.commit()
     }
 }

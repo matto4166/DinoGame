@@ -25,10 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        dinoGame = DinoGame(this)
+
         setContentView(R.layout.activity_main)
 
         highScore = findViewById<TextView>(R.id.highscore_tv)
-        highScore.text = "Your High Score: " // instead of game.getScore, get it from local preferences
+        highScore.text = "Your High Score: " + dinoGame.getHighScore().toString()
 
 //        refScore = FirebaseDatabase.getInstance().getReference("scores")
 //        refScore.addValueEventListener(ScoresListener())
@@ -38,6 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         scoresButton = findViewById<Button>(R.id.scores)
         scoresButton.setOnClickListener { leaderboard() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dinoGame.setDinoHit(false)
+        highScore.text = "Your High Score: " + dinoGame.getHighScore().toString()
     }
 
     fun play() {
@@ -74,5 +82,9 @@ class MainActivity : AppCompatActivity() {
 //            Log.w( "MainActivity", "error: " + error.message )
 //        }
 //    }
+
+    companion object {
+        lateinit var dinoGame : DinoGame
+    }
 
 }

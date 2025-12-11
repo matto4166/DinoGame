@@ -1,5 +1,6 @@
 package com.example.dinogame
 
+import android.media.SoundPool
 import android.os.Bundle
 import android.os.Vibrator
 import android.view.GestureDetector
@@ -20,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase
 
 class GameActivity : AppCompatActivity(){
     private lateinit var gameView : GameView
-    private lateinit var dinoGame : DinoGame
-    private lateinit var detector : GestureDetector //remove
+    private var dinoGame : DinoGame = MainActivity.dinoGame
+    private lateinit var detector : GestureDetector
 
     private lateinit var vibrator: Vibrator
     private lateinit var gameTimer : Timer
+    private lateinit var pool : SoundPool
+    private var jumpSound : Int = 0
     private lateinit var ad : InterstitialAd
     private lateinit var score: DatabaseReference
     private var adCalled : Boolean = false
@@ -35,13 +38,16 @@ class GameActivity : AppCompatActivity(){
 
         var width : Int = resources.displayMetrics.widthPixels
         var height : Int = resources.displayMetrics.heightPixels
-        dinoGame = DinoGame()
         gameView = GameView(this, width, height, dinoGame)
 
-            var th = TouchHandler()
-            detector = GestureDetector(this, th)
+        var th = TouchHandler()
+        detector = GestureDetector(this, th)
 
         setContentView(gameView)
+
+        var builder : SoundPool.Builder = SoundPool.Builder()
+        pool = builder.build()
+        jumpSound = pool.load(this, R.raw.jump, 1)
 
         var task : GameTimerTask = GameTimerTask(this@GameActivity)
         gameTimer = Timer()
@@ -68,10 +74,17 @@ class GameActivity : AppCompatActivity(){
             dinoGame.resetCactus()
         } else if (dinoGame.dinoHit()) {
             gameTimer.cancel()
+
+            if (dinoGame.getScore() > dinoGame.getHighScore()) {
+                dinoGame.setHighScore(dinoGame.getScore())
+            }
+
+            dinoGame.setScore(0)
+            dinoGame.setPreferences(this)
+
             vibrate()
             dinoGame.setDinoHit(true)
             adCall(adCalled)
-
         }
     }
 
@@ -108,6 +121,7 @@ class GameActivity : AppCompatActivity(){
 
                 dinoGame.setJumping(false)
                 dinoGame.setJumpVelocity(0f)
+                dinoGame.setScore(dinoGame.getScore() + 1)
             }
         }
     }
@@ -115,14 +129,17 @@ class GameActivity : AppCompatActivity(){
     override fun onTouchEvent(event: MotionEvent): Boolean {
         detector.onTouchEvent(event)
         return true
-    } // remove
+    }
 
     inner class TouchHandler : GestureDetector.SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent): Boolean {
-            dinoGame.jump()
+            if (!dinoGame.dinoHit()) {
+                dinoGame.jump()
+                pool.play(jumpSound, 1f, 1f,1, 0, 1f)
+            }
             return super.onDown(e)
         }
-    } // remove
+    }
 
     inner class AdLoadHandler : InterstitialAdLoadCallback() {
         override fun onAdFailedToLoad(p0: LoadAdError) {
